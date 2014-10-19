@@ -52,13 +52,17 @@
 					 	<option value="counseling">counseling</option>
 					 	<option value="support">support</option>
 					</select>
-					in <input class="topicinput" type="text" value="any" placeholder="any topic" data-subline="For example: <em>health</em> or <em>relationships</em>"/>
+					about <input class="topicinput" type="text" value="any" placeholder="any topic" data-subline="For example: <em onclick='addhealth()'>health</em> or <em onclick='addrelationships()'>relationships</em>"/>
+					<script>
+					  addhealth = function() {$(".topicinput").val("health")};
+					  addrelationships = function() {$(".topicinput").val("relationships");};
+					</script>
 					<div class="nl-overlay"></div>
 				</form>
 				<!--button that links to something else-->
 						<div class="nl-submit-wrap">
 						<div class='nl-form'>
-						<button class=" nl-submit" type="submit" onclick="$('#entrancepage').slideUp(); $('#matchingpage').show();getsupport()">Get help</button>
+						<button class=" nl-submit" type="submit" onclick="getsupport()">Get help</button>
 					</div>
 					</div>
 			</div>
@@ -69,11 +73,6 @@
 			var nlform = new NLForm( document.getElementById( 'nl-form' ) );
 		</script>
 	</div>
-	
-	
-<div style="display:none" id="matchingpage">
-</div>
-
 	
 </body>
 </html>

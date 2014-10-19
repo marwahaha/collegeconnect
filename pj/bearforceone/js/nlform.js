@@ -97,6 +97,7 @@
 			this.optionsList = document.createElement( 'ul' );
 			this.getinput = document.createElement( 'input' );
 			this.getinput.setAttribute( 'type', 'text' );
+			this.getinput.setAttribute( 'class', 'topicinput' );
 			this.getinput.setAttribute( 'placeholder', this.elOriginal.getAttribute( 'placeholder' ) );
 			this.getinputWrapper = document.createElement( 'li' );
 			this.getinputWrapper.className = 'nl-ti-input';
@@ -114,7 +115,7 @@
 			this.fld.appendChild( this.optionsList );
 			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
 			this.elOriginal.style.display = 'none';
-		// 	this._open();
+			this.getinput.click();
 		},
 		_initEvents : function() {
 			var self = this;
@@ -129,6 +130,9 @@
 				} );
 			}
 			else if( this.type === 'input' ) {
+			  this.getinput.addEventListener( 'click', function(ev) {
+			    console.log('hey');
+			  });
 				this.getinput.addEventListener( 'keydown', function( ev ) {
 					if ( ev.keyCode == 13 ) {
 						self.close();
