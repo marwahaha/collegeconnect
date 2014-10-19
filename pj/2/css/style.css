@@ -151,6 +151,29 @@ div.portfoliocard div.rating {
     text-align: center;
     cursor: pointer;
 }
+
+.call-btn2 {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 1);
+    position: relative;
+    transition: 0.2s linear;
+    width: 100%;
+    background: #4AF;
+    box-shadow: 0px 3px 0px #18A;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+    width: 310px;
+    margin-left: -12px;
+}
+
+#blue {
+    background-color: #4AF;
+    color: white;
+}
+
+
 .call-btn:hover {
     background: #49F;
 }
