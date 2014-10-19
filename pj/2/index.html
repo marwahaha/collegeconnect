@@ -5,11 +5,15 @@
 
     <meta charset="UTF-8">
 
-    <title>CSS Portfolio Card - CodePen</title>
+    <title>Peer-to-Peer Chat</title>
 
     <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
 
     <link rel="stylesheet" href="css/fontawesome.css" media="screen" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="css/modal.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <script src="js/modernizr.custom.js"></script>
 
 </head>
 
@@ -46,7 +50,7 @@
                         <li> <i class="fa fa-user"></i> View Profile</li>
                     </ul>
                     <div class="container-1">
-                        <div class="call-btn xsmall"> <i class="one fa fa-comment"></i>Chat</div>
+                        <div class="call-btn xsmall" id="test-1"> <i class="one fa fa-comment"></i>Chat</div>
                         <div class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>
                     </div>
                 </div>
@@ -103,16 +107,150 @@
                     </ul>
                     <div class="container-1">
                         <div class="call-btn xsmall"> <i class="one fa fa-comment"></i>Chat</div>
+
                         <div class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="morph-button morph-button-overlay morph-button-fixed btn-red">
+                <button type="button">Chat2</button>
+                <div class="morph-content">
+
+                    <div class="content-style-overlay">
+                        <span class=" my-close icon-close  fa-stack fa-lg">
+                            <i class="fa fa-circle-thin fa-stack-2x" id="btn-two"></i>
+                            <i class="fa fa-close fa-stack-1x" id="btn-one"></i>
+                        </span>
+                        <div class="main-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <div class="morph-button morph-button-overlay morph-button-fixed btn-red">
+                    <button type="button">Chat</button>
+                    <div class="morph-content">
+                        <div>
+                            <div class="content-style-overlay">
+                                <span class=" my-close icon-close  fa-stack fa-lg">
+                                    <i class="fa fa-circle-thin fa-stack-2x" id="btn-two"></i>
+                                    <i class="fa fa-close fa-stack-1x" id="btn-one"></i>
+                                </span>
+                                <div class="main-content">
+                                    <h2>Now Chatting to Kunal</h2>
+                                    <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
+                                    <p>Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.</p>
+                                    <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- morph-button -->
+            </section>
+
+
+
+
     </body>
+
+
 
     </html>
 
-    <script src="js/index.js"></script>
+    <script src="js/classie.js"></script>
+    <script src="js/ui-button-fixed.js"></script>
+    <script>
+    (function() {
+        var docElem = window.document.documentElement,
+            didScroll, scrollPosition;
+
+        // trick to prevent scrolling when opening/closing button
+        function noScrollFn() {
+            window.scrollTo(scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0);
+        }
+
+        function noScroll() {
+            window.removeEventListener('scroll', scrollHandler);
+            window.addEventListener('scroll', noScrollFn);
+        }
+
+        function scrollFn() {
+            window.addEventListener('scroll', scrollHandler);
+        }
+
+        function canScroll() {
+            window.removeEventListener('scroll', noScrollFn);
+            scrollFn();
+        }
+
+        function scrollHandler() {
+            if (!didScroll) {
+                didScroll = true;
+                setTimeout(function() {
+                    scrollPage();
+                }, 60);
+            }
+        };
+
+        function scrollPage() {
+            scrollPosition = {
+                x: window.pageXOffset || docElem.scrollLeft,
+                y: window.pageYOffset || docElem.scrollTop
+            };
+            didScroll = false;
+        };
+
+        scrollFn();
+
+        //var el = document.querySelector('.morph-button');
+        els = document.querySelectorAll('.morph-button');
+        size = els.length;
+        counter = 0;
+        objects = [];
+        while (counter < size) {
+
+          x =  new UIMorphingButton(els[counter], {
+
+                closeEl: '.icon-close',
+                onBeforeOpen: function() {
+                    // don't allow to scroll
+                    noScroll();
+                },
+                onAfterOpen: function() {
+                    // can scroll again
+                    canScroll();
+                    // add class "noscroll" to body
+                    classie.addClass(document.body, 'noscroll');
+                    // add scroll class to main el
+                    classie.addClass(els[counter], 'scroll');
+
+                },
+                onBeforeClose: function() {
+                    // remove class "noscroll" to body
+                    classie.removeClass(document.body, 'noscroll');
+                    // remove scroll class from main el
+                    classie.removeClass(els[counter], 'scroll');
+                    // don't allow to scroll
+                    noScroll();
+                },
+                onAfterClose: function() {
+                    // can scroll again
+                    canScroll();
+                }
+            }); //end new buttons
+	     console.log(x);
+	     objects.push(x);
+	           	 counter++;
+        } //end for
+        console.log('done');
+        counter = 0;
+
+    })();  //end main
+
+    </script>
 
 </body>
 
