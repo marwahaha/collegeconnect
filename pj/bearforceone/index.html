@@ -4,13 +4,25 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Natural Language Form</title>
+		<title>Title goes here</title>
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
 		<script src="js/modernizr.custom.js"></script>
+		<script src="js/supporters.js"></script>
+		<script src="js/underscore.js"></script>
+
+		<!--<script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>-->
+<script src="js/jquery.min.js"></script>
+
 	</head>
-	<body class="nl-blurred">
+	<body>
+	
+	<div id="entrancepage" class="nl-blurred">
+
+<script>
+  <!--var myDataRef = new Firebase('https://k1kpr3qrblx.firebaseio-demo.com/');-->
+</script>
 		<div class="container demo-1">
 			<!-- Top Navigation -->
 
@@ -20,43 +32,47 @@
 			<div class="main clearfix">
 				<form id="nl-form" class="nl-form">
 					I am a
-					<select>
-						<option value="1" selected>first year</option>
-						<option value="2">second year</option>
-						<option value="3">third year</option>
-						<option value="4">fourth year</option>
-						<option value="5">fifth year</option>
-						<option value="6">graduate </option>
+					<select id="classyear">
+						<option value="First" selected>first year</option>
+						<option value="Second">second year</option>
+						<option value="Third">third year</option>
+						<option value="Fourth">fourth year</option>
+						<option value="Fifth">fifth year</option>
+						<option value="Graduate">graduate </option>
 					</select>
 					student at
-					<select>
-						<option value="1">UC Berkeley</option>
-						<option value="2">Stanford</option>
-						<option value="3">Santa Clara</option>
+					<select id='school'>
+						<option value="UC Berkeley">UC Berkeley</option>
+						<option value="Stanford">Stanford</option>
+						<option value="Santa Clara">Santa Clara</option>
 					</select>
 					and I need
-					<select>
-						<option value="1" selected>advice</option>
-					 	<option value="2">counseling</option>
-					 	<option value="3">support</option>
+					<select id='adviceorwhat'>
+						<option value="advice" selected>advice</option>
+					 	<option value="counseling">counseling</option>
+					 	<option value="support">support</option>
 					</select>
-					in <input type="text" value="" placeholder="any topic" data-subline="For example: <em>health</em> or <em>relationships</em>"/>
-					<!--<div class="nl-submit-wrap">-->
-					<!--	<button class="nl-submit" type="submit" onclick="document.location.href ='http://www.google.com'">Get help</button>-->
-					<!--</div>-->
+					about <input class="topicinput" type="text" value="any" placeholder="any topic" data-subline="For example: <em onclick='addhealth()'>health</em> or <em onclick='addrelationships()'>relationships</em>"/>
+					<script>
+					  addhealth = function() {$(".topicinput").val("health")};
+					  addrelationships = function() {$(".topicinput").val("relationships");};
+					</script>
 					<div class="nl-overlay"></div>
 				</form>
 				<!--button that links to something else-->
 						<div class="nl-submit-wrap">
 						<div class='nl-form'>
-						<button class=" nl-submit" type="submit" onclick="document.location.href ='http://www.google.com'">Get help</button>
+						<button class=" nl-submit" type="submit" onclick="getsupport()">Get help</button>
 					</div>
 					</div>
 			</div>
 		</div><!-- /container -->
 		 <script src="js/nlform.js"></script>
+		 
 		<script>
 			var nlform = new NLForm( document.getElementById( 'nl-form' ) );
 		</script>
-	</body>
+	</div>
+	
+</body>
 </html>

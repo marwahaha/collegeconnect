@@ -38,7 +38,7 @@ var sessionName = 'sinchSessionPSTN-' + sinchClient.applicationKey;
 /*** Check for valid session. NOTE: Deactivated by default to allow multiple browser-tabs with different users. ***/
 
 var sessionObj = JSON.parse(localStorage[sessionName] || '{}');
-if(sessionObj.userId) { 
+if(sessionObj.userId) {
 	sinchClient.start(sessionObj)
 		.then(function() {
 			global_username = sessionObj.userId;

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<!--     <meta charset="UTF-8" />
+ -->    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="js/jquery.min.js"></script>
+		<script src="js/supporters.js"></script>
+
+    <script src="sinch.min.js"></script>
+
+    <link rel="stylesheet" href="../2/css/style.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="../2/css/fontawesome.css" media="screen" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <script>
+
+// transition fade in
+  $(document).ready(function() {
+      $('body').hide();
+       $('body').fadeIn(800);
+});
+
+
+//sinch setup
+sinchClient = new SinchClient({
+	applicationKey: 'e8d034dd-0b5d-47d1-b230-335f684f0e77',
+    capabilities: {messaging: true, calling: true},
+  	onLogMessage: function(message) {
+		console.log(message);
+	},
+});
+
+sinchClient.start({username: 'marwahaha', password: 'test'}, function() {console.log("calling working!")}, function() {console.log("calling didn't work :(")});
+
+callClient = sinchClient.getCallClient();
+
+
+var callListeners = {
+    onCallProgressing: function(call) {
+        $('audio#ringback').prop("currentTime",0); //Ensure ringback start from beginning
+        $('audio#ringback').trigger("play"); //Play ringback when call is progressing
+    },
+    onCallEstablished: function(call) {
+        $('audio#ringback').trigger("pause"); //End ringback
+        $('audio#incoming').attr('src', call.incomingStreamURL); //Connect incoming stream to audio element
+    },
+    onCallEnded: function(call) {
+        $('audio#ringback').trigger("pause"); //End the ringback
+        $('audio#incoming').attr('src', ''); //Ensure no incoming stream is playing
+        //Optional: Enable user interface to make another call
+    }
+}
+curcall = false;
+function calling(number) {
+  curcall = callClient.callPhoneNumber(number);
+  curcall.addEventListener(callListeners);
+}
+function hangup() {
+  curcall.hangup();
+}
+
+
+</script>
+  </head>
+  <body>
+    <div id="zachstuff">
+      <div class="main-contain">
+    	<audio id="ringback" src='ringback.wav' loop></audio>
+          <audio id="incoming" autoplay></audio>
+
+
+
+        </div>
+        
+    </div>
+    <script>
+      addmatches();
+    </script>
+</body>
+</html>
