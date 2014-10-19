@@ -114,6 +114,7 @@
 			this.fld.appendChild( this.optionsList );
 			this.elOriginal.parentNode.insertBefore( this.fld, this.elOriginal );
 			this.elOriginal.style.display = 'none';
+		// 	this._open();
 		},
 		_initEvents : function() {
 			var self = this;
