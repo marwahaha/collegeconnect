@@ -3,7 +3,7 @@
 <script src="pubnub.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  
-Talk to someone!
+Help someone!
 <br> <span id="goonline">Name: <input id="name" value="David">
 <button onclick='starttalking($("#name").val())'>go online</button></span>
 <button id="gooffline" style="display:none" onclick='endtalking()'>go offline</button>
@@ -76,6 +76,8 @@ function msgme(text) {
 $("#client").keyup(function (e) {
     if (e.keyCode == 13) {
     msgme($("#client").val());
+                $("#client").val("");
+
 }
 });
 
