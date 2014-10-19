@@ -1,4 +1,13 @@
 console.log('hi');
+
+
+
+//names should be first and last initial
+//majors should vary more (be sure to change BS to BA if appropriate) - think political science, economics, other normal majors
+//in general, have more people - have enough from each school, at least one from each school/class tbh
+//ratings should vary more (not all 3.2), make them X.Y from 2.0 to 5.0). leave numbers as string
+//cheers should vary more, keep them high, nice numbers - if they're over 1000 then comma separate values. leave as string
+
 permhosts = new Array();
 permhosts.push({
     school: "UC Berkeley",
@@ -19,7 +28,7 @@ permhosts.push({
     school: "UC Berkeley",
     problemFocus: "",
     year: "Third",
-    phoneNumber: "+13103879406",
+    phoneNumber: "+19164024661",
     emailAddress: "kmar@berkeley.edu",
     name: "Kunal",
     password: "991A664DA8",
@@ -237,6 +246,8 @@ hosts.push({
 
 
 
+
+
 function getsupport() {
   year = $("#classyear").val();
   school = $("#school").val();
@@ -245,7 +256,7 @@ function getsupport() {
   curhosts = _.where(hosts, {"year": year, 'school': school}).concat(permhosts);
   localStorage.setItem('user-search', JSON.stringify({'year': year, 'school': school, 'topic':topic, 'what': adviceorwhat, 'curhosts': curhosts}));
   console.log("hi");
-  $("body").fadeOut(1000, function() {
+  $("body").fadeOut(800, function() {
     document.location.href="match.html";
   });
   
@@ -281,12 +292,12 @@ function addmatches() {
   console.log(info);
   
   //used to debug, see all users in system
-  // info.curhosts = hosts.concat(permhosts);
+  info.curhosts = hosts.concat(permhosts);
   
   for (var h in info.curhosts) {
     ho = info.curhosts[h];
     if (callok(ho)) {
-      callme = '<div class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>';
+      callme = '<div onclick="calling(\'' + ho.phoneNumber + '\')" class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>';
     } else {
       callme = '';
     }
