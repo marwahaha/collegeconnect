@@ -23,6 +23,11 @@
     text-transform: uppercase;
 }
 
+.btn-blue > button {
+    background: #49F;
+}
+
+
 .morph-button.open > button {
     pointer-events: none;
 }
@@ -186,6 +191,7 @@
     background-color: #fef0e3;
     color: #e75854;
 }
+
 
 .morph-button-modal-4 {
     display: inline-block;
