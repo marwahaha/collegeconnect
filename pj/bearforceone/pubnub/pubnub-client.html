@@ -2,70 +2,171 @@
 
 <script src="pubnub.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
- 
-Talk to someone! Name: <input id="name">
-<br>&nbsp;<br>
-Talk to David.
-<button onclick='starttalking("David")'>start talking</button>
+
+Talk to someone! Name:
+<input id="name">
+<br>&nbsp;
 <br>
-Talk to Laura.
-<button onclick='starttalking("David")'>start talking</button>
+<div id="talktome">
 
+</div>
+<br>&nbsp;
+<br>
+<div id="onlyiftalking" style="display:none">
 
- <br>&nbsp;<br>
-<input id="client">
- <br>&nbsp;<br>
+    <input id="client">
+    <br>&nbsp;
+    <br>
 
-<div id="messages"><div>Message board: <strong><span id="mb-title">None chosen</span></strong></div>
+    <div id="messages">
+        <div>Message board: <strong><span id="mb-title">None chosen</span></strong>
+        </div>
+        <button id="stoptalking" onclick='stoptalking()'>stop talking</button>
+
+    </div>
 </div>
 
 <!-- Instantiate PubNub -->
 <script type="text/javascript">
+    var cur_channel = "";
 
-  var cur_channel = "";
-  
-  function change_channel() {
-  $("#mb-title").html(cur_channel);
-  $('.msgs').remove();
-};
+    function change_channel() {
+        $("#mb-title").html(cur_channel);
+        $('.msgs').remove();
+    };
 
 
-  var PUBNUB_demo = PUBNUB.init({
-    publish_key: 'demo',
-    subscribe_key: 'demo',
-     uuid: 'marwahaha'
+    var PUBNUB_demo = PUBNUB.init({
+        publish_key: 'demo',
+        subscribe_key: 'demo',
+        uuid: "client-" + Math.random().toString(),
 
-  });
+    });
 
-$("#client").keyup(function (e) {
-    if (e.keyCode == 13) {
-    msgme($("#client").val());
-}
-});
+    PUBNUB_demo.subscribe({
+        heartbeat: 6,
+        presence: function(m) {
+            handlepresence(m);
+            console.log(m)
 
-function msgme(text) {
-  PUBNUB_demo.publish({
-    channel: cur_channel,
-    message: {"text":text, "sender":$("#name").val() || "anon"}
- });
- };
+        },
 
-function starttalking(channel) {
+        channel: 'accenture-bf1-main',
+        message: function(m) {
+            console.log(m);
+        }
+    });
 
-  PUBNUB_demo.unsubscribe({
-    channel : cur_channel,
-  });
-  PUBNUB_demo.subscribe({
-  channel: channel,
-  message: function(m){
-    console.log(m);
-    $("#messages").append("<p class='msgs'>"+m.text + " - " + m.sender +"</p>");
-    
-  }
-  });
-  cur_channel = channel;
-  change_channel();
-}
+
+
+    $("#client").keyup(function(e) {
+        if (e.keyCode == 13) {
+            msgme($("#client").val());
+        }
+    });
+
+    function msgme(text) {
+        PUBNUB_demo.publish({
+            channel: cur_channel,
+            message: {
+                "text": text,
+                "sender": $("#name").val() || "anon"
+            }
+        });
+    };
+
+    function handlepresence(event) {
+
+        if (event.uuid.lastIndexOf("supporter", 0) === 0) {
+            var supporter_name = event.uuid.substring(10);
+
+            if (event.action == "join") {
+                console.log("supporter joined!");
+
+                $("#talktome").append("<p id=talk-" + supporter_name + "> Talk to " + supporter_name + ".<button onclick='starttalking(\"" + supporter_name + "\")'>start talking</button><br></p>");
+            }
+            if (event.action == "leave" || event.action == "timeout") {
+                console.log("removing: " + supporter_name);
+                $("#talktome").children("#talk-" + supporter_name).remove();
+            }
+        }
+    }
+
+
+    function stoptalking() {
+        $("#talktome").show();
+        $("#onlyiftalking").hide();
+        PUBNUB_demo.unsubscribe({
+            channel: cur_channel,
+        });
+        cur_channel = "";
+    }
+
+
+    function convohandle(event) {
+        if (event.uuid.lastIndexOf("supporter", 0) === 0) {
+            if (event.action == "join") {
+
+                console.log("someone joined!");
+
+                $("#messages").append("<i><p class='msgs'> User connected.</p></i>");
+
+            };
+            if (event.action == "leave" || event.action == "timeout") {
+                console.log("someone left!");
+
+                $("#messages").append("<i><p class='msgs'> User disconnected.</p></i>");
+                PUBNUB_demo.unsubscribe({
+                    channel: cur_channel,
+                });
+                cur_channel = "";
+            };
+        }
+
+    }
+
+
+
+    function joinmain() {
+        PUBNUB_demo.subscribe({
+            heartbeat: 6,
+            presence: function(m) {
+                handlepresence(m);
+                // console.log(m)
+            },
+
+            channel: 'accenture-bf1-main',
+            message: function(m) {
+                console.log(m);
+            }
+        });
+
+    }
+
+    function starttalking(channel) {
+        $("#talktome").hide();
+        $("#onlyiftalking").show();
+        PUBNUB_demo.unsubscribe({
+            channel: cur_channel,
+        });
+        PUBNUB_demo.subscribe({
+            heartbeat: 6,
+            presence: function(m) {
+                convohandle(m);
+                // console.log(m)
+
+            },
+
+            channel: channel,
+            message: function(m) {
+                console.log(m);
+                $("#messages").append("<p class='msgs'>" + m.text + " - " + m.sender + "</p>");
+
+            }
+        });
+        cur_channel = channel;
+        change_channel();
+    }
 </script>
 
 </html>

@@ -3,36 +3,69 @@
 <script src="pubnub.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  
-Talk to someone! Name: <input id="name">
-<button onclick='starttalking($("#name").val())'>start talking</button>
+Talk to someone!
+<br> <span id="goonline">Name: <input id="name" value="David">
+<button onclick='starttalking($("#name").val())'>go online</button></span>
+<button id="gooffline" style="display:none" onclick='endtalking()'>go offline</button>
 
  <br>&nbsp;<br>
 
-<input id="client">
-<button onclick='msgme($("#client").val())'>click to message</button>
- <br>&nbsp;<br>
 
-<div id="messages"><div>Message board: <strong><span id="mb-title">None chosen</span></strong></div>
+<div id="onlyonline" style="display:none">
+  <input id="client">
+   <br>&nbsp;<br>
+  
+  <div id="messages"><div>Message board: <strong><span id="mb-title">None chosen</span></strong></div>
+  </div>
 </div>
 
 <!-- Instantiate PubNub -->
 <script type="text/javascript">
 
   var cur_channel = "";
-  
+
   function change_channel() {
   $("#mb-title").html(cur_channel);
   $('.msgs').remove();
 };
 
 
-  var PUBNUB_demo = PUBNUB.init({
-    publish_key: 'demo',
-    subscribe_key: 'demo',
-     uuid: 'marwahaha'
+function convohandle(event) {
+    if (event.uuid.lastIndexOf("client", 0) === 0) {
+    if (event.action == "join") {
+  
+      console.log("someone joined!");
+  $('.msgs').remove();
 
-  });
+    $("#messages").append("<i><p class='msgs'> User connected.</p></i>");
 
+      PUBNUB_demo.unsubscribe({
+      channel : 'accenture-bf1-main',
+    });
+    };
+    if (event.action == "leave" || event.action == "timeout") {
+      console.log("someone left!");
+
+    $("#messages").append("<i><p class='msgs'> User disconnected.</p></i>");
+      joinmain();
+    };
+}
+
+}
+
+
+function joinmain() {
+   PUBNUB_demo.subscribe({
+    heartbeat: 6,
+    // presence: function(m){console.log(m)},
+
+  channel: 'accenture-bf1-main',
+  message: function(m){
+    console.log(m);
+}
+});
+  
+}
 
 function msgme(text) {
   PUBNUB_demo.publish({
@@ -40,13 +73,55 @@ function msgme(text) {
     message: {"text":text, "sender":$("#name").val() || "anon"}
  });
  };
+$("#client").keyup(function (e) {
+    if (e.keyCode == 13) {
+    msgme($("#client").val());
+}
+});
 
-function starttalking(channel) {
-
+function endtalking() {
+  
   PUBNUB_demo.unsubscribe({
-    channel : cur_channel,
+      channel : ['accenture-bf1-main'],
+    });
+    
+  if (cur_channel.length > 0) {
+      $("#onlyonline").hide();
+      $("#goonline").show();
+      $("#gooffline").hide();
+    console.log('ending channel ' + cur_channel);
+    PUBNUB_demo.unsubscribe({
+      channel : ['accenture-bf1-main', cur_channel],
+    });
+    cur_channel = "";
+  }
+}
+  
+function starttalking(channel) {
+  
+  PUBNUB_demo = PUBNUB.init({
+    uuid: "supporter-" + channel,
+    publish_key: 'demo',
+    subscribe_key: 'demo',
   });
+  
+  
+  $("#onlyonline").show();
+      $("#goonline").hide();
+      $("#gooffline").show();
+  endtalking();
+  
+  
+  joinmain();
+
+  
   PUBNUB_demo.subscribe({
+        heartbeat: 6,
+     presence: function(m){convohandle(m);
+    // console.log(m)
+       
+     },
+  state: {'supporter-name':  channel},
   channel: channel,
   message: function(m){
     console.log(m);
