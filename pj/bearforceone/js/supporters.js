@@ -434,7 +434,7 @@ function addmatches() {
   for (var h in info.curhosts) {
     ho = info.curhosts[h];
     if (callok(ho)) {
-      callme = '<div onclick="calling(\'' + ho.phoneNumber + '\')" class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>';
+      callme = '<div onclick="calling(\'' + ho.phoneNumber + '\')" id="call-no-morph" class="call-btn xsmall"> <i class="fa fa-phone"></i> Call Me</div>';
     } else {
       callme = '';
     }
@@ -464,7 +464,28 @@ function addmatches() {
                         <li> <i class="fa fa-user"></i> View Profile</li>\
                     </ul>\
                     <div class="container-1">\
-                        <div class="call-btn xsmall"> <i class="one fa fa-comment"></i>Chat</div>\
+                            <div id="call-morph" class="morph-button morph-button-overlay morph-button-fixed">\
+                                <button type="button" id="z-btn">\
+                                    <div class="call-btn3" onclick="starttalking(\'' + ho.name + '\')" > <i class="one fa fa-comment"></i>Chat</div>\
+                                </button>\
+                                <div class="morph-content" id="blue">\
+\
+                                    <div class="content-style-overlay">\
+                                        <span class=" my-close icon-close  fa-stack fa-lg">\
+                                            <i class="fa fa-circle-thin fa-stack-2x" id="btn-two"></i>\
+                                            <i class="fa fa-close fa-stack-1x" id="btn-one"></i>\
+                                        </span>\
+                                        <div class="main-content">\
+                                            <h2 class="z">Now Chatting to ' + ho.name + '</h2>\
+\
+                                            <input type="text" placeholder="say something!" class="z client"></input>\
+\
+                                            <div class="paraz">\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                </div>\
                         ' + callme + '\
                     </div>\
                 </div>\

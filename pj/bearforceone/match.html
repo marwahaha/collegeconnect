@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="../2/css/style.css" media="screen" type="text/css" />
     <link rel="stylesheet" href="../2/css/fontawesome.css" media="screen" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
+    <link rel="stylesheet" type="text/css" href="../2/css/modal.css" />
+    <link rel="stylesheet" type="text/css" href="../2/css/component.css" />
+    <script src="../2/js/modernizr.custom.js"></script>
     <script>
 
 // transition fade in
@@ -98,6 +100,7 @@ function hangup() {
     
     <!--pubnub-->
     
+<div style="display:none">
 <input id="name">
 <br>&nbsp;<br>
 <div id="talktome">
@@ -114,7 +117,7 @@ function hangup() {
         <button id="stoptalking" onclick='stoptalking()'>stop talking</button>
     </div>
 </div>
-
+</div>
     <!-- pubnub code -->
 <script type="text/javascript">
     online_hosts = [];
@@ -143,10 +146,11 @@ function hangup() {
         }
     });
 
-    $("#client").keyup(function(e) {
+    $(".client").keyup(function(e) {
+      self = $(this);
         if (e.keyCode == 13) {
-            msgme($("#client").val());
-            $("#client").val("");
+            msgme(self.val());
+            self.val("");
         }
     });
 
@@ -175,7 +179,7 @@ function hangup() {
             if (event.action == "leave" || event.action == "timeout") {
                 console.log("removing: " + supporter_name);
                 $("#talktome").children("#talk-" + supporter_name).remove();
-            
+                $(".paraz").children().remove();
                 
                   var pothosts = _.filter(info.curhosts, {'name': supporter_name});
                   if (pothosts.length > 0) {
@@ -253,7 +257,12 @@ function hangup() {
             channel: channel,
             message: function(m) {
                 console.log(m);
-                $("#messages").append("<p class='msgs'>" + m.text + " - " + m.sender + "</p>");
+                if (m.sender == "anon") {
+                  $(".paraz").append("<div><span id='name-1'>You:</span> " + m.text +  "</div>");
+                } else {
+                  $(".paraz").append("<div><span id='name-2'>" + channel + ":</span> " + m.text +  "</div>");
+
+                }
 
             }
         });
@@ -261,5 +270,99 @@ function hangup() {
         change_channel();
     }
 </script>
+
+
+
+	
+	    <script src="../2/js/classie.js"></script>
+    <script src="../2/js/ui-button-fixed.js"></script>
+    <script>
+    (function() {
+        var docElem = window.document.documentElement,
+            didScroll, scrollPosition;
+
+        // trick to prevent scrolling when opening/closing button
+        function noScrollFn() {
+            window.scrollTo(scrollPosition ? scrollPosition.x : 0, scrollPosition ? scrollPosition.y : 0);
+        }
+
+        function noScroll() {
+            window.removeEventListener('scroll', scrollHandler);
+            window.addEventListener('scroll', noScrollFn);
+        }
+
+        function scrollFn() {
+            window.addEventListener('scroll', scrollHandler);
+        }
+
+        function canScroll() {
+            window.removeEventListener('scroll', noScrollFn);
+            scrollFn();
+        }
+
+        function scrollHandler() {
+            if (!didScroll) {
+                didScroll = true;
+                setTimeout(function() {
+                    scrollPage();
+                }, 60);
+            }
+        };
+
+        function scrollPage() {
+            scrollPosition = {
+                x: window.pageXOffset || docElem.scrollLeft,
+                y: window.pageYOffset || docElem.scrollTop
+            };
+            didScroll = false;
+        };
+
+        scrollFn();
+
+        //var el = document.querySelector('.morph-button');
+        els = document.querySelectorAll('.morph-button');
+        size = els.length;
+        counter = 0;
+        objects = [];
+        while (counter < size) {
+
+            x = new UIMorphingButton(els[counter], {
+
+                closeEl: '.icon-close',
+                onBeforeOpen: function() {
+                    // don't allow to scroll
+                    noScroll();
+                },
+                onAfterOpen: function() {
+                    // can scroll again
+                    canScroll();
+                    // add class "noscroll" to body
+                    classie.addClass(document.body, 'noscroll');
+                    // add scroll class to main el
+                    classie.addClass(els[counter], 'scroll');
+
+                },
+                onBeforeClose: function() {
+                    // remove class "noscroll" to body
+                    classie.removeClass(document.body, 'noscroll');
+                    // remove scroll class from main el
+                    classie.removeClass(els[counter], 'scroll');
+                    // don't allow to scroll
+                    noScroll();
+                },
+                onAfterClose: function() {
+                    // can scroll again
+                    canScroll();
+                }
+            }); //end new buttons
+            console.log(x);
+            objects.push(x);
+            counter++;
+        } //end for
+        console.log('done');
+        counter = 0;
+
+    })(); //end main
+    </script>
 </body>
 </html>
