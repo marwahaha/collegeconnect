@@ -7,6 +7,7 @@
 <script src="js/jquery.min.js"></script>
 		<script src="js/supporters.js"></script>
 <script src="pubnub/pubnub.js"></script>
+		<script src="js/underscore.js"></script>
 
     <script src="sinch.min.js"></script>
 
@@ -83,7 +84,7 @@ function hangup() {
     
     
     
-    
+    <!--pubnub-->
     
 <input id="name">
 <br>&nbsp;<br>
@@ -104,6 +105,7 @@ function hangup() {
 
     <!-- pubnub code -->
 <script type="text/javascript">
+    online_hosts = [];
     var cur_channel = "";
     function change_channel() {
         // $("#mb-title").html(cur_channel);
@@ -151,12 +153,22 @@ function hangup() {
             var supporter_name = event.uuid.substring(10);
             if (event.action == "join") {
                 console.log("supporter joined!");
-
                 $("#talktome").append("<p id=talk-" + supporter_name + "> Talk to " + supporter_name + ".<button onclick='starttalking(\"" + supporter_name + "\")'>start talking</button><br></p>");
             }
+            
+              var pothosts = _.filter(info.curhosts, {'name': supporter_name});
+              if (pothosts.length > 0) {
+                pothosts[0].online = true;
+              }
             if (event.action == "leave" || event.action == "timeout") {
                 console.log("removing: " + supporter_name);
                 $("#talktome").children("#talk-" + supporter_name).remove();
+            
+                
+                  var pothosts = _.filter(info.curhosts, {'name': supporter_name});
+                  if (pothosts.length > 0) {
+                  pothosts[0].online = false;
+                }
             }
         }
     }

@@ -21,7 +21,7 @@ permhosts.push({
     major: 'CS',
     cheers: '104',
     rating: '3.2',
-    degree: 'BS',
+    degree: 'BA',
 
 });
 permhosts.push({
