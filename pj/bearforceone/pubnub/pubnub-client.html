@@ -1,0 +1,71 @@
+<html>
+
+<script src="pubnub.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 
+Talk to someone! Name: <input id="name">
+<br>&nbsp;<br>
+Talk to David.
+<button onclick='starttalking("David")'>start talking</button>
+<br>
+Talk to Laura.
+<button onclick='starttalking("David")'>start talking</button>
+
+
+ <br>&nbsp;<br>
+<input id="client">
+ <br>&nbsp;<br>
+
+<div id="messages"><div>Message board: <strong><span id="mb-title">None chosen</span></strong></div>
+</div>
+
+<!-- Instantiate PubNub -->
+<script type="text/javascript">
+
+  var cur_channel = "";
+  
+  function change_channel() {
+  $("#mb-title").html(cur_channel);
+  $('.msgs').remove();
+};
+
+
+  var PUBNUB_demo = PUBNUB.init({
+    publish_key: 'demo',
+    subscribe_key: 'demo',
+     uuid: 'marwahaha'
+
+  });
+
+$("#client").keyup(function (e) {
+    if (e.keyCode == 13) {
+    msgme($("#client").val());
+}
+});
+
+function msgme(text) {
+  PUBNUB_demo.publish({
+    channel: cur_channel,
+    message: {"text":text, "sender":$("#name").val() || "anon"}
+ });
+ };
+
+function starttalking(channel) {
+
+  PUBNUB_demo.unsubscribe({
+    channel : cur_channel,
+  });
+  PUBNUB_demo.subscribe({
+  channel: channel,
+  message: function(m){
+    console.log(m);
+    $("#messages").append("<p class='msgs'>"+m.text + " - " + m.sender +"</p>");
+    
+  }
+  });
+  cur_channel = channel;
+  change_channel();
+}
+</script>
+
+</html>

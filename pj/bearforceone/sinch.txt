@@ -1,0 +1,2 @@
+sinchClient = new SinchClient({
+	applicationKey: 'e8d034dd-0b5d-47d1-b230-335f684f0e77',
