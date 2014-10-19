@@ -18,7 +18,8 @@ div.portfoliocard {
     box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.1), 0px 2px 6px rgba(0, 0, 0, 0.5);
     border-radius: 6px;
     /*margin: 10% auto; */
-	text-align: left;
+
+    text-align: left;
     overflow: hidden;
     z-index: 100;
     display: inline-block;
@@ -151,28 +152,55 @@ div.portfoliocard div.rating {
     text-align: center;
     cursor: pointer;
 }
-
-.call-btn2 {
+.call-btn2, .call-btn3 {
     font-size: 15px;
     font-weight: 300;
     color: rgba(255, 255, 255, 1);
     position: relative;
     transition: 0.2s linear;
-    width: 100%;
     background: #4AF;
     box-shadow: 0px 3px 0px #18A;
     border-radius: 3px;
     text-align: center;
     cursor: pointer;
-    width: 310px;
     margin-left: -12px;
 }
-
+.call-btn2 {
+    width: 310px;
+}
+.call-btn3 {
+    margin-top: -23px;
+    width: 121px;
+}
 #blue {
     background-color: #4AF;
     color: white;
 }
-
+#call-morph {
+    width: 80px;
+    height: 20px;
+    margin: 5px auto 5px auto;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+#call-no-morph {
+    top: -1px;
+    height: 15px;
+    left: 42px;
+}
+#z-btn {
+    width: 120px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0px 3px 0px #18A;
+}
+.call-btn3:hover {
+    background:  #49F;
+}
+.call-btn3:active {
+    box-shadow: 0px 0px 0px #18A;
+}
 
 .call-btn:hover {
     background: #49F;
@@ -195,11 +223,10 @@ div.portfoliocard div.rating {
     *zoom: 1;
 }
 .call-btn.xsmall:first-child {
-	margin-right: 10px;
+    margin-right: 10px;
 }
-
 .container-1 {
-	margin-top: 20px;
+    margin-top: 20px;
     padding-left: 12px;
 }
 .container-1 i.one:after {
@@ -210,9 +237,8 @@ div.portfoliocard div.rating {
     content: "";
     padding-right: 5px;
 }
-
 .main-contain {
-	text-align: center;
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
