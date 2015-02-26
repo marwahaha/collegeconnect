@@ -1,4 +1,6 @@
-EngineeringStudentCouncil.github.io
-===================================
+Created by Codrops
 
-Wiki for Engineering Student Council
+http://www.codrops.com
+
+Please read about our license: http://tympanus.net/codrops/licensing/
+
