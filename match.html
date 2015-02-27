@@ -241,6 +241,8 @@ function hangup() {
     }
 
     function starttalking(channel) {
+        setTimeout(function() {
+          $(".portfoliocard").not(".supporter-" + channel.replace(" ","-")).hide();},1000);
         $("#talktome").hide();
         $("#onlyiftalking").show();
         PUBNUB_demo.unsubscribe({
@@ -364,5 +366,11 @@ function hangup() {
 
     })(); //end main
     </script>
+<style>
+  body {
+    position:relative;
+    z-index:-10;
+  }
+</style>
 </body>
 </html>

@@ -441,7 +441,7 @@ function addmatches() {
     img = ho.img || 'http://cache.spradshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png';
 
   $(".main-contain").append('\
-              <div class="portfoliocard noselect supporter-' + ho.name + '">\
+              <div class="portfoliocard noselect supporter-' + ho.name.replace(" ", "-") + '">\
                 <div class="coverphoto"></div>\
                 <div class="profile_picture profpic-' + ho.name.split(" ")[0] + '"></div>\
                 <div class="left_col">\
@@ -468,7 +468,7 @@ function addmatches() {
                                 <button type="button" id="z-btn">\
                                     <div class="call-btn3" onclick="starttalking(\'' + ho.name + '\')" > <i class="one fa fa-comment"></i>Chat</div>\
                                 </button>\
-                                <div class="morph-content" id="blue">\
+                                <div style="overflow-y:scroll;" class="morph-content" id="blue">\
 \
                                     <div class="content-style-overlay">\
                                         <span class=" my-close icon-close  fa-stack fa-lg">\
