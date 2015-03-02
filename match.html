@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
   <link rel="stylesheet" href="css/fontawesome.css" media="screen" type="text/css" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/modal.css" />
   <link rel="stylesheet" type="text/css" href="css/component2.css" />
   <script src="js/modernizr.custom2.js"></script>
@@ -126,6 +126,9 @@
       publish_key: 'demo',
       subscribe_key: 'demo',
       uuid: "client-" + Math.random().toString(),
+      ssl: true,
+      cipher_key: '123gobears'
+
     });
 
     PUBNUB_demo.subscribe({

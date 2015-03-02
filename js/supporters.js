@@ -84,7 +84,7 @@ function addmatches() {
     } else {
       callme = '';
     }
-    img = ho.img || 'http://cache.spradshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png';
+    img = ho.img || 'https://cache.spradshirt.net/Public/Common/images/profile-pic-placeholder_130x130.png';
 
     $(".main-contain").append('\
               <div class="portfoliocard noselect supporter-' + ho.name.replace(" ", "-") + '">\
