@@ -23,7 +23,7 @@
 
     function UIMorphingButton( el, options ) {
         this.el = el;
-        console.log('el is: ' + el);
+        console.log(el);
         this.options = extend( {}, this.options );
         extend( this.options, options );
         this._init();
